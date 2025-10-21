@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.femcoders.periodico_ayer.entity.Article;
 import com.femcoders.periodico_ayer.service.ArticleService;
 
-
+@RestController
+@RequestMapping("/api/v1/periodicoayer")
 public class ArticleController {
 
     private final ArticleService articleService;
@@ -21,7 +24,7 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<Article> createrArticle(@RequestBody Article article) {
+    public ResponseEntity<Article> createArticle(@RequestBody Article article) {
         return articleService.addArticle(article);
     }
 
@@ -39,7 +42,4 @@ public class ArticleController {
     public ResponseEntity<Void> DeleteArticle(@PathVariable Long id) {
         return articleService.deleteArticle(id);
     }
-
-
-    
 }
