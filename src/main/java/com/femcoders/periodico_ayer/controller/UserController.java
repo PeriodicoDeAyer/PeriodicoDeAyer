@@ -2,8 +2,14 @@ package com.femcoders.periodico_ayer.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.femcoders.periodico_ayer.dto.request.UserRequest;
+import com.femcoders.periodico_ayer.dto.response.UserResponse;
 import com.femcoders.periodico_ayer.entity.User;
 import com.femcoders.periodico_ayer.service.UserService;
+
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -16,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest user) {
         return userService.addUser(user);
     }
 

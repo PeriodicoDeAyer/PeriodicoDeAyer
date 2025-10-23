@@ -1,5 +1,7 @@
 package com.femcoders.periodico_ayer.service;
 
+import com.femcoders.periodico_ayer.dto.request.UserRequest;
+import com.femcoders.periodico_ayer.dto.response.UserResponse;
 import com.femcoders.periodico_ayer.entity.User;
 import com.femcoders.periodico_ayer.repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -19,9 +21,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<User> addUser(User user) {
-        User saved = userRepository.save(user);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    public ResponseEntity<UserResponse> addUser(UserRequest user) {
+        User newUser = new User();
+        newUser.setUsername(user.getUsername());
+        newUser.setEmail(user.getEmail());
+        User saved = userRepository.save(newUser);
+        return new ResponseEntity<>(new UserResponse(saved.getId(),saved.getUsername(),saved.getEmail()), HttpStatus.CREATED);
     }
 
     @Override

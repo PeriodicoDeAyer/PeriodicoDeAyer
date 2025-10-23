@@ -9,7 +9,7 @@ public class UserRequest {
     @NotBlank(message = "Nombre no puede estar vacío")
     private String username;
 
-    @Email(message = "Email no puede estar vacío")
+    @NotBlank(message = "Email no puede estar vacío")
     @Email(message = "Email debe ser válido")
     private String email;
 }
