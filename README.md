@@ -73,8 +73,54 @@ La API ofrece un conjunto completo de operaciones para la gestión del periódic
 3. **Verificar la instalación**
    - La API estará disponible en: `http://localhost:8080`
    - Puedes probar los endpoints con Postman o cualquier cliente HTTP
+  
+## Estructura del Proyecto
 
+A continuación se muestra la estructura del proyecto Periódico de Ayer, organizada por capas siguiendo la arquitectura estándar de una aplicación Spring Boot
 
+```
+PERIODICODEAYER
+├── .mvn/
+│   └── wrapper/
+│       └── maven-wrapper.properties
+├── src/
+│   └── main/
+│       ├── java/com/femcoders/periodico_ayer/
+│       │   ├── controller/
+│       │   │   ├── ArticleController.java
+│       │   │   └── UserController.java
+│       │   ├── dto/
+│       │   │   ├── request/
+│       │   │   │   ├── ArticleRequest.java
+│       │   │   │   └── UserRequest.java
+│       │   │   └── response/
+│       │   │       ├── ArticleResponse.java
+│       │   │       └── UserResponse.java
+│       │   ├── entity/
+│       │   │   ├── Article.java
+│       │   │   └── User.java
+│       │   ├── exception/
+│       │   │   └── GlobalExceptionHandler.java
+│       │   ├── mapper/
+│       │   │   ├── ArticleMapper.java
+│       │   │   └── UserMapper.java
+│       │   ├── repository/
+│       │   │   ├── ArticleRepository.java
+│       │   │   └── UserRepository.java
+│       │   ├── service/
+│       │   │   ├── ArticleService.java
+│       │   │   ├── ArticleServiceImpl.java
+│       │   │   ├── UserService.java
+│       │   │   └── UserServiceImpl.java
+│       │   └── PeriodicoAyerApplication.java
+│       └── resources/
+│           └── application.properties
+├── test/java/com/femcoders/periodico_ayer/
+│   └── PeriodicoAyerApplicationTests.java
+├── target/
+├── .env
+└── .gitattributes
+```
 ## Contactos
 
 ¿Tienes dudas o quieres saber más sobre el proyecto?
