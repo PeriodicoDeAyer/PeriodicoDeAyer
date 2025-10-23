@@ -1,17 +1,14 @@
 package com.femcoders.periodico_ayer.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import com.femcoders.periodico_ayer.dto.request.ArticleRequest;
+import com.femcoders.periodico_ayer.dto.response.ArticleResponse;
 import com.femcoders.periodico_ayer.entity.Article;
 import com.femcoders.periodico_ayer.service.ArticleService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/periodicoayer")
@@ -24,7 +21,7 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<Article> createArticle(@RequestBody Article article) {
+    public ResponseEntity<ArticleResponse> createArticle(@Valid @RequestBody ArticleRequest article) {
         return articleService.addArticle(article);
     }
 

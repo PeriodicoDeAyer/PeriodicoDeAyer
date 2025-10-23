@@ -2,6 +2,8 @@ package com.femcoders.periodico_ayer.service;
 
 import com.femcoders.periodico_ayer.repository.ArticleRepository;
 import com.femcoders.periodico_ayer.repository.UserRepository;
+import com.femcoders.periodico_ayer.dto.request.ArticleRequest;
+import com.femcoders.periodico_ayer.dto.response.ArticleResponse;
 import com.femcoders.periodico_ayer.entity.Article;
 import com.femcoders.periodico_ayer.entity.User;
 
@@ -24,29 +26,37 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ResponseEntity<Article> addArticle(Article article) {
+    public ResponseEntity<ArticleResponse> addArticle(ArticleRequest article) {
         
-        if (article.getUser() == null || article.getUser().getId() == null) {
+        if (article.getUserId() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
-        
-        Optional<User> userOptional = userRepository.findById(article.getUser().getId());
+        Optional<User> userOptional = userRepository.findById(article.getUserId());
         if (userOptional.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
+        Article newArticle = new Article();
+        newArticle.setTitle(article.getTitle());
+        newArticle.setContent(article.getContent());
+        newArticle.setCategory(article.getCategory());
+        newArticle.setPublicationDate(LocalDateTime.now());
+        newArticle.setUser(userOptional.get());
         
-        article.setUser(userOptional.get());
+        Article saved = articleRepository.save(newArticle);
         
-        if (article.getPublicationDate() == null) {
-            article.setPublicationDate(LocalDateTime.now());
-        }
+        ArticleResponse response = new ArticleResponse(
+            saved.getId(),
+            saved.getTitle(),
+            saved.getContent(),
+            saved.getCategory(),
+            saved.getUser().getId()
+        );
         
-        Article savedArticle = articleRepository.save(article);
-        return new ResponseEntity<>(savedArticle, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-
+    
     @Override
     public ResponseEntity<List<Article>> getAllArticles() {
         List<Article> articles = articleRepository.findAll();
@@ -68,7 +78,6 @@ public class ArticleServiceImpl implements ArticleService {
                     existingArticle.setContent(article.getContent());
                     existingArticle.setCategory(article.getCategory());
                     existingArticle.setPublicationDate(article.getPublicationDate());
-                    
                     
                     if (article.getUser() != null && article.getUser().getId() != null) {
                         Optional<User> userOptional = userRepository.findById(article.getUser().getId());
