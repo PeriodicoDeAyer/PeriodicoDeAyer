@@ -4,6 +4,7 @@ import com.femcoders.periodico_ayer.dto.request.UserRequest;
 import com.femcoders.periodico_ayer.dto.response.UserResponse;
 import com.femcoders.periodico_ayer.entity.User;
 import com.femcoders.periodico_ayer.repository.UserRepository;
+import com.femcoders.periodico_ayer.mapper.UserMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,18 +16,19 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public ResponseEntity<UserResponse> addUser(UserRequest user) {
-        User newUser = new User();
-        newUser.setUsername(user.getUsername());
-        newUser.setEmail(user.getEmail());
+    public ResponseEntity<UserResponse> addUser(UserRequest userRequest) {
+        User newUser = userMapper.toEntity(userRequest);
         User saved = userRepository.save(newUser);
-        return new ResponseEntity<>(new UserResponse(saved.getId(),saved.getUsername(),saved.getEmail()), HttpStatus.CREATED);
+        UserResponse response = userMapper.toResponse(saved);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Override
