@@ -7,6 +7,7 @@ import com.femcoders.periodico_ayer.dto.request.ArticleRequest;
 import com.femcoders.periodico_ayer.dto.response.ArticleResponse;
 import com.femcoders.periodico_ayer.entity.Article;
 import com.femcoders.periodico_ayer.service.ArticleService;
+import java.util.List;
 
 import jakarta.validation.Valid;
 
@@ -18,6 +19,11 @@ public class ArticleController {
 
     public ArticleController(ArticleService articleservice) {
         this.articleService = articleservice;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Article>> getAllArticles() {
+        return articleService.getAllArticles();
     }
 
     @PostMapping
